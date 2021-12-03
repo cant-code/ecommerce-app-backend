@@ -13,5 +13,5 @@ public interface OrderService {
     Order getOrder(long id);
     Order addOrder(OrderDTO order);
     Map<Long, Long> getOrderCount(LocalDateTime dateTime);
-    void releaseResources(LocalDateTime dateTime);
+    void updateStatus(long id);
 }

@@ -63,8 +63,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void releaseResources(LocalDateTime dateTime) {
-        List<Order> orders = orderRepository.findByStatusAndExpiry(Status.CONFIRMED, dateTime);
-        orders.forEach(order -> order.setStatus(Status.EXPIRED));
+    public void updateStatus(long id) {
+        orderRepository.updateStatus(id, Status.EXPIRED);
     }
 }

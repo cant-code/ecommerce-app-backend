@@ -74,6 +74,12 @@ public class AppController {
         return authentication.getAuthentication();
     }
 
+    @PostMapping("/order/{id}/finish")
+    public ResponseEntity<?> updateStatus(@Valid @PathVariable long id) {
+        orderService.updateStatus(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authHeader = request.getHeader(AUTHORIZATION);
