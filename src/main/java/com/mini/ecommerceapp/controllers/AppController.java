@@ -5,7 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mini.ecommerceapp.controllers.RequestFormat.OrderRequest;
+import com.mini.ecommerceapp.dto.OrderDTO;
 import com.mini.ecommerceapp.models.ClientUser;
 import com.mini.ecommerceapp.models.Order;
 import com.mini.ecommerceapp.models.Roles;
@@ -55,7 +55,7 @@ public class AppController {
     }
 
     @PostMapping("/order")
-    public Order placeOrder(@Valid @RequestBody OrderRequest order) {
+    public Order placeOrder(@Valid @RequestBody OrderDTO order) {
         return orderService.addOrder(order);
     }
 

@@ -1,5 +1,6 @@
 package com.mini.ecommerceapp.services;
 
+import com.mini.ecommerceapp.dto.SearchDTO;
 import com.mini.ecommerceapp.models.Area;
 import com.mini.ecommerceapp.models.ParkingSpace;
 
@@ -9,7 +10,7 @@ public interface AreaService {
     Area saveArea(Area area);
     Area getArea(String name);
     Area getArea(long id);
-    List<Area> search(String s);
+    List<Area> search(SearchDTO s);
     List<Area> getAreas();
     void addParkingSpace(String name, ParkingSpace parkingSpace);
 }

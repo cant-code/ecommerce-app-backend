@@ -17,8 +17,8 @@ public class VehicularSpace {
     @NotEmpty
     @NotNull
     private String name;
-    @NotNull
-    private int availableSlots;
+    @Transient
+    private long availableSlots;
     @NotNull
     private int totalSlots;
     @NotNull
@@ -31,12 +31,10 @@ public class VehicularSpace {
     public VehicularSpace() {}
 
     public VehicularSpace(@NotEmpty @NotNull String name,
-                          @NotNull int availableSlots,
                           @NotEmpty @NotNull int totalSlots,
                           @NotEmpty @NotNull double price,
                           ParkingSpace parkingSpace) {
         this.name = name;
-        this.availableSlots = availableSlots;
         this.totalSlots = totalSlots;
         this.price = price;
         this.parkingSpace = parkingSpace;
@@ -56,14 +54,6 @@ public class VehicularSpace {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getAvailableSlots() {
-        return availableSlots;
-    }
-
-    public void setAvailableSlots(int availableSlots) {
-        this.availableSlots = availableSlots;
     }
 
     public int getTotalSlots() {
@@ -90,7 +80,17 @@ public class VehicularSpace {
         this.parkingSpace = parkingSpace;
     }
 
-    public long getParkingSpaceID() { return getParkingSpace().getId(); }
+    public long getAvailableSlots() {
+        return availableSlots;
+    }
+
+    public void setAvailableSlots(long availableSlots) {
+        this.availableSlots = availableSlots;
+    }
+
+    public long getParkingSpaceID() {
+        return getParkingSpace().getId();
+    }
 
     public URI getUrl() {
         return ServletUriComponentsBuilder

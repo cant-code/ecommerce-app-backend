@@ -1,8 +1,9 @@
 package com.mini.ecommerceapp.services.implementations;
 
-import com.mini.ecommerceapp.controllers.RequestFormat.OrderRequest;
+import com.mini.ecommerceapp.dto.OrderDTO;
 import com.mini.ecommerceapp.models.ClientUser;
 import com.mini.ecommerceapp.models.Order;
+import com.mini.ecommerceapp.models.Status;
 import com.mini.ecommerceapp.models.VehicularSpace;
 import com.mini.ecommerceapp.repository.OrderRepository;
 import com.mini.ecommerceapp.security.securitycontext.IAuthentication;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -48,21 +50,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order addOrder(OrderRequest order) {
+    public Order addOrder(OrderDTO order) {
         ClientUser clientUser = clientUserService.getUser(authentication.getAuthentication().getName());
         VehicularSpace space = vehicularSpaceService.getVehicularSpace(order.getVehicularSpace().getId());
-        space.setAvailableSlots(space.getAvailableSlots() - 1);
         order.setVehicularSpace(space);
         return orderRepository.save(new Order(clientUser, order));
     }
 
     @Override
+    public Map<Long, Long> getOrderCount(LocalDateTime dateTime) {
+        return orderRepository.countOrdersMap(dateTime);
+    }
+
+    @Override
     public void releaseResources(LocalDateTime dateTime) {
-        List<Order> orders = orderRepository.findByStatusAndExpiry("Confirmed", dateTime);
-        orders.forEach(order -> {
-            VehicularSpace space = order.getItems();
-            space.setAvailableSlots(space.getAvailableSlots() + 1);
-            order.setStatus("Expired");
-        });
+        List<Order> orders = orderRepository.findByStatusAndExpiry(Status.CONFIRMED, dateTime);
+        orders.forEach(order -> order.setStatus(Status.EXPIRED));
     }
 }

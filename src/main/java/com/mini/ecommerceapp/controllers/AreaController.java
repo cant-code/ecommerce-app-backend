@@ -1,5 +1,6 @@
 package com.mini.ecommerceapp.controllers;
 
+import com.mini.ecommerceapp.dto.SearchDTO;
 import com.mini.ecommerceapp.models.Area;
 import com.mini.ecommerceapp.models.ParkingSpace;
 import com.mini.ecommerceapp.services.AreaService;
@@ -47,7 +48,7 @@ public class AreaController {
     }
 
     @GetMapping("/search")
-    public List<Area> searchArea(@RequestParam String area) {
+    public List<Area> searchArea(@RequestBody SearchDTO area) {
         return areaService.search(area);
     }
 

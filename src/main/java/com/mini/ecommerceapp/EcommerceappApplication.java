@@ -39,13 +39,11 @@ public class EcommerceappApplication {
 			ParkingSpace p1 = new ParkingSpace("Mall", new ArrayList<>());
 			VehicularSpace p1v1 = new VehicularSpace(
 					"Two Wheelers",
-					15,
 					30,
 					200.0d,
 					p1);
 			VehicularSpace p1v2 = new VehicularSpace(
 					"Four Wheelers",
-					20,
 					20,
 					500.0d,
 					p1
@@ -55,13 +53,11 @@ public class EcommerceappApplication {
 			ParkingSpace p2 = new ParkingSpace("Hospital", new ArrayList<>());
 			VehicularSpace p2v1 = new VehicularSpace(
 					"Two Wheelers",
-					15,
 					30,
 					200.0d,
 					p2);
 			VehicularSpace p2v2 = new VehicularSpace(
 					"Four Wheelers",
-					20,
 					20,
 					500.0d,
 					p2
@@ -73,12 +69,10 @@ public class EcommerceappApplication {
 			VehicularSpace p3v1 = new VehicularSpace(
 					"Two Wheelers",
 					30,
-					30,
 					100.0d,
 					p3);
 			VehicularSpace p3v2 = new VehicularSpace(
 					"Four Wheelers",
-					20,
 					20,
 					300.0d,
 					p3
@@ -88,13 +82,11 @@ public class EcommerceappApplication {
 			ParkingSpace p4 = new ParkingSpace("Theatre", new ArrayList<>());
 			VehicularSpace p4v1 = new VehicularSpace(
 					"Two Wheelers",
-					15,
 					30,
 					200.0d,
 					p4);
 			VehicularSpace p4v2 = new VehicularSpace(
 					"Four Wheelers",
-					20,
 					20,
 					500.0d,
 					p4

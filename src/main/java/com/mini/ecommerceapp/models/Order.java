@@ -2,7 +2,7 @@ package com.mini.ecommerceapp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mini.ecommerceapp.controllers.RequestFormat.OrderRequest;
+import com.mini.ecommerceapp.dto.OrderDTO;
 import com.mini.ecommerceapp.utils.Constants;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,30 +21,33 @@ public class Order {
     @ManyToOne
     private ClientUser user;
     private LocalDateTime dateCreated;
-    private String status;
+    private Status status;
     @ManyToOne
     private VehicularSpace items;
     private double totalCost;
+    private LocalDateTime start;
     private LocalDateTime expiry;
 
     public Order() {}
 
-    public Order(ClientUser user, LocalDateTime dateCreated, String status, VehicularSpace items, double totalCost, LocalDateTime expiry) {
+    public Order(ClientUser user, LocalDateTime dateCreated, Status status, VehicularSpace items, double totalCost, LocalDateTime expiry, LocalDateTime start) {
         this.user = user;
         this.dateCreated = dateCreated;
         this.status = status;
         this.items = items;
         this.totalCost = totalCost;
         this.expiry = expiry;
+        this.start = start;
     }
 
-    public Order(ClientUser user, OrderRequest request) {
+    public Order(ClientUser user, OrderDTO request) {
         this.dateCreated = LocalDateTime.now();
-        this.status = "Confirmed";
+        this.status = Status.CONFIRMED;
         this.user = user;
         this.items = request.getVehicularSpace();
-        this.totalCost = request.getDuration() * request.getVehicularSpace().getPrice();
-        this.expiry = this.dateCreated.plusHours(request.getDuration()).truncatedTo(ChronoUnit.HOURS);
+        this.totalCost = (ChronoUnit.HOURS.between(request.getStartTimeStamp(), request.getEndTimeStamp())) * request.getVehicularSpace().getPrice();
+        this.expiry = request.getEndTimeStamp();
+        this.start = request.getStartTimeStamp();
     }
 
     public long getId() {
@@ -70,45 +73,48 @@ public class Order {
         return dateCreated;
     }
 
-    public Order setDateCreated(LocalDateTime dateCreated) {
+    public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
-        return this;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public Order setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
-        return this;
     }
 
     public VehicularSpace getItems() {
         return items;
     }
 
-    public Order setItems(VehicularSpace items) {
+    public void setItems(VehicularSpace items) {
         this.items = items;
-        return this;
     }
 
     public double getTotalCost() {
         return totalCost;
     }
 
-    public Order setTotalCost(double totalCost) {
+    public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
-        return this;
     }
 
     public LocalDateTime getExpiry() {
         return expiry;
     }
 
-    public Order setExpiry(LocalDateTime expiry) {
+    public void setExpiry(LocalDateTime expiry) {
         this.expiry = expiry;
-        return this;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
     }
 
     public long getDuration() {
