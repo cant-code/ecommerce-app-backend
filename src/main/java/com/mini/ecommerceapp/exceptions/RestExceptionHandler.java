@@ -13,8 +13,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -26,13 +27,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        String fields = fieldErrors.stream().map(FieldError::getField).collect(Collectors.joining(", "));
-        String fieldMsg = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(", "));
+        Map<String, String> map = new HashMap<>();
+        fieldErrors.forEach(fieldError -> map.put(fieldError.getField(), fieldError.getDefaultMessage()));
 
         return new ResponseEntity<>(
                 new ValidationDetailsException()
-                        .setFields(fields)
-                        .setFieldsMsg(fieldMsg)
+                        .setFieldErrors(map)
                         .setTimeStamp(LocalDateTime.now())
                         .setTitle("Field Validation Error")
                         .setDetail("Check field(s) below")

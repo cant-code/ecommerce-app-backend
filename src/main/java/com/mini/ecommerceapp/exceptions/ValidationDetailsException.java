@@ -1,31 +1,22 @@
 package com.mini.ecommerceapp.exceptions;
 
+import java.util.Map;
+
 public class ValidationDetailsException extends ExceptionDetails {
-    private String fields;
-    private String fieldsMsg;
+    private Map<String, String> fieldErrors;
 
     public ValidationDetailsException() { }
 
-    public ValidationDetailsException(String fields, String fieldsMsg) {
-        this.fields = fields;
-        this.fieldsMsg = fieldsMsg;
+    public ValidationDetailsException(Map<String, String> fieldErrors) {
+        this.fieldErrors = fieldErrors;
     }
 
-    public ValidationDetailsException setFields(String fields) {
-        this.fields = fields;
+    public Map<String, String> getFieldErrors() {
+        return fieldErrors;
+    }
+
+    public ValidationDetailsException setFieldErrors(Map<String, String> fieldErrors) {
+        this.fieldErrors = fieldErrors;
         return this;
-    }
-
-    public ValidationDetailsException setFieldsMsg(String fieldsMsg) {
-        this.fieldsMsg = fieldsMsg;
-        return this;
-    }
-
-    public String getFields() {
-        return fields;
-    }
-
-    public String getFieldsMsg() {
-        return fieldsMsg;
     }
 }
