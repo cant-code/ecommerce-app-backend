@@ -5,19 +5,19 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mini.ecommerceapp.dto.OrderDTO;
 import com.mini.ecommerceapp.models.ClientUser;
-import com.mini.ecommerceapp.models.Order;
 import com.mini.ecommerceapp.models.Roles;
 import com.mini.ecommerceapp.security.securitycontext.IAuthentication;
 import com.mini.ecommerceapp.services.ClientUserService;
-import com.mini.ecommerceapp.services.OrderService;
 import com.mini.ecommerceapp.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -36,14 +35,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class AppController {
     private final ClientUserService clientUserService;
     private final IAuthentication authentication;
-    private final OrderService orderService;
     private final JWTUtil jwtUtil;
 
     @Autowired
-    public AppController(ClientUserService clientUserService, IAuthentication authentication, OrderService orderService, JWTUtil jwtUtil) {
+    public AppController(ClientUserService clientUserService, IAuthentication authentication, JWTUtil jwtUtil) {
         this.clientUserService = clientUserService;
         this.authentication = authentication;
-        this.orderService = orderService;
         this.jwtUtil = jwtUtil;
     }
 
@@ -54,30 +51,9 @@ public class AppController {
         return ResponseEntity.created(URI.create(ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString())).build();
     }
 
-    @PostMapping("/order")
-    public Order placeOrder(@Valid @RequestBody OrderDTO order) {
-        return orderService.addOrder(order);
-    }
-
-    @GetMapping("/order/{id}")
-    public Order getOrder(@Valid @PathVariable long id) {
-        return orderService.getOrder(id);
-    }
-
-    @GetMapping("/orders")
-    public List<Order> getOrders() {
-        return orderService.getOrdersForUser();
-    }
-
     @GetMapping("/user")
     public Object getUser() {
         return authentication.getAuthentication();
-    }
-
-    @PostMapping("/order/{id}/finish")
-    public ResponseEntity<?> updateStatus(@Valid @PathVariable long id) {
-        orderService.updateStatus(id);
-        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/token/refresh")

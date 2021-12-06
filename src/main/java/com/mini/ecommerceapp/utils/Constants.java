@@ -6,5 +6,5 @@ public class Constants {
     public static final String AREA = "/area";
     public static final String PARKING_SPACE = "/parkingspace";
     public static final String VEHICLE_SPACE = "/vehicularspace";
-    public static final String ORDER = "/order";
+    public static final String ORDER = "/orders";
 }
