@@ -52,6 +52,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+    @ExceptionHandler(ResourceNotAvailableException.class)
+    public ResponseEntity<ExceptionDetails> handleResourceNotAvailableException(ResourceNotAvailableException ex) {
+        return new ResponseEntity<>(
+                buildExceptionDetails(HttpStatus.CONFLICT, ex),
+                HttpStatus.CONFLICT
+        );
+    }
+
     public ResponseEntity<Object> buildValidationDetails(Exception ex) {
         Map<String, String> map = new HashMap<>();
         if (ex instanceof MethodArgumentNotValidException) {

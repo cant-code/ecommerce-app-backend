@@ -1,6 +1,7 @@
 package com.mini.ecommerceapp.services.implementations;
 
 import com.mini.ecommerceapp.dto.OrderDTO;
+import com.mini.ecommerceapp.exceptions.ResourceNotAvailableException;
 import com.mini.ecommerceapp.models.ClientUser;
 import com.mini.ecommerceapp.models.Order;
 import com.mini.ecommerceapp.models.Status;
@@ -53,6 +54,10 @@ public class OrderServiceImpl implements OrderService {
     public Order addOrder(OrderDTO order) {
         ClientUser clientUser = clientUserService.getUser(authentication.getAuthentication().getName());
         VehicularSpace space = vehicularSpaceService.getVehicularSpace(order.getVehicularSpace().getId());
+        long count = orderRepository.countOrdersByItems_IdAndStartLessThanEqualAndStartLessThan(space.getId(), order.getStartTimeStamp(), order.getEndTimeStamp());
+        if (space.getTotalSlots() == count) {
+            throw new ResourceNotAvailableException("Space Booked full");
+        }
         order.setVehicularSpace(space);
         return orderRepository.save(new Order(clientUser, order));
     }

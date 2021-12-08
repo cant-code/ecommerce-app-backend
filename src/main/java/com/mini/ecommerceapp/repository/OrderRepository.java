@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUser_Username(String username);
+    long countOrdersByItems_IdAndStartLessThanEqualAndStartLessThan(long id, LocalDateTime t1, LocalDateTime t2);
 
     @Modifying
     @Query("UPDATE Order o SET o.status = ?2 WHERE o.id = ?1")

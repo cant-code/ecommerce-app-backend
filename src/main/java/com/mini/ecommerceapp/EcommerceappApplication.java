@@ -37,7 +37,7 @@ public class EcommerceappApplication {
 			ParkingSpace p1 = new ParkingSpace("Mall", new ArrayList<>());
 			VehicularSpace p1v1 = new VehicularSpace(
 					"Two Wheelers",
-					30,
+					2,
 					900.0d,
 					p1);
 			VehicularSpace p1v2 = new VehicularSpace(
