@@ -14,18 +14,19 @@ import java.util.stream.Collectors;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByStatusAndExpiry(Status s, LocalDateTime dateTime);
     List<Order> findByUser_Username(String username);
 
     @Modifying
     @Query("UPDATE Order o SET o.status = ?2 WHERE o.id = ?1")
     void updateStatus(long id, Status status);
 
-    @Query("SELECT items.id, COUNT(items.id) FROM Order WHERE start <= ?1 AND status = ?2 GROUP BY items.id")
-    List<Object[]> countOrders(LocalDateTime dateTime, Status status);
+    @Query("SELECT items.id, COUNT(items.id) " +
+            "FROM Order WHERE (start <= ?1 OR start < ?2) AND status = ?3 " +
+            "GROUP BY items.id")
+    List<Object[]> countOrders(LocalDateTime dateTime, LocalDateTime time, Status status);
 
-    default Map<Long, Long> countOrdersMap(LocalDateTime dateTime) {
-        return countOrders(dateTime, Status.CONFIRMED)
+    default Map<Long, Long> countOrdersMap(LocalDateTime startTime, LocalDateTime endTime) {
+        return countOrders(startTime, endTime, Status.CONFIRMED)
                 .stream()
                 .collect(Collectors.toMap((arr -> (Long) arr[0]), (arr -> (Long) arr[1])));
     }

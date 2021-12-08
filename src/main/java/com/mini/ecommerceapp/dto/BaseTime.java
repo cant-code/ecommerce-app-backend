@@ -1,13 +1,17 @@
 package com.mini.ecommerceapp.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDateTime;
 
 public class BaseTime {
     @FutureOrPresent
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime startTimeStamp;
     @Future
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime endTimeStamp;
 
     public BaseTime(@FutureOrPresent LocalDateTime startTimeStamp, @Future LocalDateTime endTimeStamp) {

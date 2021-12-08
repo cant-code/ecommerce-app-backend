@@ -6,6 +6,7 @@ import com.mini.ecommerceapp.models.ParkingSpace;
 import com.mini.ecommerceapp.services.AreaService;
 import com.mini.ecommerceapp.services.ParkingSpaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -48,7 +49,7 @@ public class AreaController {
     }
 
     @GetMapping("/search")
-    public List<Area> searchArea(@RequestBody SearchDTO area) {
+    public List<Area> searchArea(@Valid SearchDTO area) {
         return areaService.search(area);
     }
 

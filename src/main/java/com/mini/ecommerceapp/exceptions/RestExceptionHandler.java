@@ -4,6 +4,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,20 +27,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        Map<String, String> map = new HashMap<>();
-        fieldErrors.forEach(fieldError -> map.put(fieldError.getField(), fieldError.getDefaultMessage()));
+        return buildValidationDetails(ex);
+    }
 
-        return new ResponseEntity<>(
-                new ValidationDetailsException()
-                        .setFieldErrors(map)
-                        .setTimeStamp(LocalDateTime.now())
-                        .setTitle("Field Validation Error")
-                        .setDetail("Check field(s) below")
-                        .setStatus(HttpStatus.BAD_REQUEST.value())
-                        .setDeveloperMessage(ex.getClass().getName()),
-                HttpStatus.BAD_REQUEST
-        );
+    @Override
+    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return buildValidationDetails(ex);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -50,11 +43,36 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ExceptionDetails> handleDataIntegrityViolationException(ConstraintViolationException ex) {
         return new ResponseEntity<>(
                 buildExceptionDetails(HttpStatus.CONFLICT, ex),
                 HttpStatus.CONFLICT
+        );
+    }
+
+    public ResponseEntity<Object> buildValidationDetails(Exception ex) {
+        Map<String, String> map = new HashMap<>();
+        if (ex instanceof MethodArgumentNotValidException) {
+            MethodArgumentNotValidException e = (MethodArgumentNotValidException) ex;
+            List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+            fieldErrors.forEach(fieldError -> map.put(fieldError.getField(), fieldError.getDefaultMessage()));
+        } else if (ex instanceof BindException) {
+            BindException e = (BindException) ex;
+            List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+            fieldErrors.forEach(fieldError -> map.put(fieldError.getField(), fieldError.getDefaultMessage()));
+        }
+
+        return new ResponseEntity<>(
+                new ValidationDetailsException()
+                        .setFieldErrors(map)
+                        .setTimeStamp(LocalDateTime.now())
+                        .setTitle("Field Validation Error")
+                        .setDetail("Check field(s) below")
+                        .setStatus(HttpStatus.BAD_REQUEST.value())
+                        .setDeveloperMessage(ex.getClass().getName()),
+                HttpStatus.BAD_REQUEST
         );
     }
 

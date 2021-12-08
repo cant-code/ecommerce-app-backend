@@ -2,9 +2,11 @@ package com.mini.ecommerceapp.dto;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class SearchDTO extends BaseTime {
+    @NotBlank
     private String search;
 
     public SearchDTO() {

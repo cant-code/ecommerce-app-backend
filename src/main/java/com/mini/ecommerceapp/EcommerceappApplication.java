@@ -38,12 +38,12 @@ public class EcommerceappApplication {
 			VehicularSpace p1v1 = new VehicularSpace(
 					"Two Wheelers",
 					30,
-					200.0d,
+					900.0d,
 					p1);
 			VehicularSpace p1v2 = new VehicularSpace(
 					"Four Wheelers",
 					20,
-					500.0d,
+					2000.0d,
 					p1
 			);
 			p1.getVehicularSpaces().add(p1v1);
@@ -52,12 +52,12 @@ public class EcommerceappApplication {
 			VehicularSpace p2v1 = new VehicularSpace(
 					"Two Wheelers",
 					30,
-					200.0d,
+					300.0d,
 					p2);
 			VehicularSpace p2v2 = new VehicularSpace(
 					"Four Wheelers",
 					20,
-					500.0d,
+					400.0d,
 					p2
 			);
 			p2.getVehicularSpaces().add(p2v1);
@@ -67,12 +67,12 @@ public class EcommerceappApplication {
 			VehicularSpace p3v1 = new VehicularSpace(
 					"Two Wheelers",
 					30,
-					100.0d,
+					500.0d,
 					p3);
 			VehicularSpace p3v2 = new VehicularSpace(
 					"Four Wheelers",
 					20,
-					300.0d,
+					600.0d,
 					p3
 			);
 			p3.getVehicularSpaces().add(p3v1);
@@ -81,12 +81,12 @@ public class EcommerceappApplication {
 			VehicularSpace p4v1 = new VehicularSpace(
 					"Two Wheelers",
 					30,
-					200.0d,
+					700.0d,
 					p4);
 			VehicularSpace p4v2 = new VehicularSpace(
 					"Four Wheelers",
 					20,
-					500.0d,
+					800.0d,
 					p4
 			);
 			p4.getVehicularSpaces().add(p4v1);

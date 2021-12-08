@@ -58,8 +58,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map<Long, Long> getOrderCount(LocalDateTime dateTime) {
-        return orderRepository.countOrdersMap(dateTime);
+    public Map<Long, Long> getOrderCount(LocalDateTime startTime, LocalDateTime endTime) {
+        return orderRepository.countOrdersMap(startTime, endTime);
     }
 
     @Override
