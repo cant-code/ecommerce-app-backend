@@ -21,17 +21,15 @@ import java.util.List;
 @Transactional
 public class ClientUserServiceImpl implements ClientUserService, UserDetailsService {
     private final ClientUserRepository clientUserRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ClientUserServiceImpl(ClientUserRepository clientUserRepository, PasswordEncoder passwordEncoder) {
+    public ClientUserServiceImpl(ClientUserRepository clientUserRepository) {
         this.clientUserRepository = clientUserRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public ClientUser saveUser(ClientUser user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(user.getPassword());
         return clientUserRepository.save(user);
     }
 

@@ -3,13 +3,13 @@ package com.mini.ecommerceapp;
 import com.mini.ecommerceapp.models.*;
 import com.mini.ecommerceapp.services.AreaService;
 import com.mini.ecommerceapp.services.ClientUserService;
-import com.mini.ecommerceapp.utils.JWTUtil;
+import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
+import org.keycloak.authorization.client.AuthzClient;
+import org.keycloak.authorization.client.Configuration;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +22,15 @@ public class EcommerceappApplication {
 	}
 
 	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
-	public static JWTUtil generateJWT() {
-		return new JWTUtil();
+	public AuthzClient authzClient(KeycloakSpringBootProperties properties) {
+		Configuration configuration = new Configuration(
+				properties.getAuthServerUrl(),
+				properties.getRealm(),
+				properties.getResource(),
+				properties.getCredentials(),
+				null
+		);
+		return AuthzClient.create(configuration);
 	}
 
 	@Bean
