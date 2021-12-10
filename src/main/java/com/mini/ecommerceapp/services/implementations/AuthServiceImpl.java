@@ -9,10 +9,8 @@ import org.keycloak.authorization.client.util.Http;
 import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class AuthServiceImpl implements AuthService {
     private final AuthzClient authzClient;
     private final KeycloakSpringBootProperties kcProperties;
