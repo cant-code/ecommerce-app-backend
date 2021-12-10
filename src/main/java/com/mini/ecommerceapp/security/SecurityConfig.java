@@ -25,7 +25,6 @@ import org.springframework.security.web.authentication.session.NullAuthenticated
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 
-//TODO: Integrate with keycloak
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -100,7 +99,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/login", "/register**", "/token/refresh**").permitAll()
+                .authorizeRequests().antMatchers("/login", "/register**", "/token/refresh").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/**/add**").hasAuthority("ROLE_ADMIN")
                 .and()

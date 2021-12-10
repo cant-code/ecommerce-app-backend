@@ -18,8 +18,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
-    private ClientUser user;
+    private String userId;
     private LocalDateTime dateCreated;
     private Status status;
     @ManyToOne
@@ -30,8 +29,8 @@ public class Order {
 
     public Order() {}
 
-    public Order(ClientUser user, LocalDateTime dateCreated, Status status, VehicularSpace items, double totalCost, LocalDateTime expiry, LocalDateTime start) {
-        this.user = user;
+    public Order(String userId, LocalDateTime dateCreated, Status status, VehicularSpace items, double totalCost, LocalDateTime expiry, LocalDateTime start) {
+        this.userId = userId;
         this.dateCreated = dateCreated;
         this.status = status;
         this.items = items;
@@ -40,10 +39,10 @@ public class Order {
         this.start = start;
     }
 
-    public Order(ClientUser user, OrderDTO request) {
+    public Order(String userId, OrderDTO request) {
         this.dateCreated = LocalDateTime.now();
         this.status = Status.CONFIRMED;
-        this.user = user;
+        this.userId = userId;
         this.items = request.getVehicularSpace();
         this.totalCost = (ChronoUnit.HOURS.between(request.getStartTimeStamp(), request.getEndTimeStamp())) * request.getVehicularSpace().getPrice();
         this.expiry = request.getEndTimeStamp();
@@ -60,12 +59,12 @@ public class Order {
     }
 
     @JsonIgnore
-    public ClientUser getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public Order setUser(ClientUser user) {
-        this.user = user;
+    public Order setUserId(String userId) {
+        this.userId = userId;
         return this;
     }
 

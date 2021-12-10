@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByUser_Username(String username);
+    List<Order> findByUserId(String username);
     long countOrdersByItems_IdAndStartLessThanEqualAndStartLessThan(long id, LocalDateTime t1, LocalDateTime t2);
 
     @Modifying
