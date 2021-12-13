@@ -44,7 +44,7 @@ public class Order {
         this.status = Status.CONFIRMED;
         this.userId = userId;
         this.items = request.getVehicularSpace();
-        this.totalCost = (ChronoUnit.HOURS.between(request.getStartTimeStamp(), request.getEndTimeStamp())) * request.getVehicularSpace().getPrice();
+        this.totalCost = (ChronoUnit.MINUTES.between(request.getStartTimeStamp(), request.getEndTimeStamp())) * request.getVehicularSpace().getPrice() / 60;
         this.expiry = request.getEndTimeStamp();
         this.start = request.getStartTimeStamp();
     }

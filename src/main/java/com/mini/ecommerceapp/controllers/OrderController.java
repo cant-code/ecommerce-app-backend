@@ -28,7 +28,7 @@ public class OrderController {
     @PostMapping
     public Order placeOrder(@Valid @RequestBody OrderDTO order, Principal principal) {
         AccessToken token = ((KeycloakAuthenticationToken) principal).getAccount().getKeycloakSecurityContext().getToken();
-        return orderService.addOrder(order, token.getId());
+        return orderService.addOrder(order, token.getPreferredUsername());
     }
 
     @GetMapping("/{id}")
@@ -39,7 +39,7 @@ public class OrderController {
     @GetMapping
     public List<Order> getOrders(Principal principal) {
         AccessToken token = ((KeycloakAuthenticationToken) principal).getAccount().getKeycloakSecurityContext().getToken();
-        return orderService.getOrdersForUser(token.getId());
+        return orderService.getOrdersForUser(token.getPreferredUsername());
     }
 
     @PostMapping("/{id}/finish")
