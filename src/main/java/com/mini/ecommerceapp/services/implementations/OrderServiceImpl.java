@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateStatus(long id) {
-        orderRepository.updateStatus(id, Status.EXPIRED);
+    public Order updateStatus(long id) {
+        Order order = orderRepository.getById(id);
+        LocalDateTime dateTime = order.getExpiry();
+        LocalDateTime now = LocalDateTime.now();
+        long diff = ChronoUnit.MINUTES.between(dateTime, now);
+        if (now.isAfter(dateTime) && diff > 5) {
+            double extra = diff * order.getItems().getPrice() / 60;
+            order.setExtraCharges(extra);
+            order.setFinalCharge(order.getFinalCharge() + extra);
+        }
+        order.setEndTime(now);
+        order.setStatus(Status.EXPIRED);
+        return orderRepository.save(order);
     }
 }

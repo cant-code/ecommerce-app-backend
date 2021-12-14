@@ -43,8 +43,7 @@ public class OrderController {
     }
 
     @PostMapping("/{id}/finish")
-    public ResponseEntity<?> updateStatus(@Valid @PathVariable long id) {
-        orderService.updateStatus(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Order> updateStatus(@Valid @PathVariable long id) {
+        return ResponseEntity.ok(orderService.updateStatus(id));
     }
 }

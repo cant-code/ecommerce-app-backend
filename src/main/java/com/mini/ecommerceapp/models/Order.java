@@ -26,6 +26,9 @@ public class Order {
     private double totalCost;
     private LocalDateTime start;
     private LocalDateTime expiry;
+    private LocalDateTime endTime;
+    private double extraCharges;
+    private double finalCharge;
 
     public Order() {}
 
@@ -47,6 +50,8 @@ public class Order {
         this.totalCost = (ChronoUnit.MINUTES.between(request.getStartTimeStamp(), request.getEndTimeStamp())) * request.getVehicularSpace().getPrice() / 60;
         this.expiry = request.getEndTimeStamp();
         this.start = request.getStartTimeStamp();
+        this.setExtraCharges(0);
+        this.setFinalCharge(this.totalCost);
     }
 
     public long getId() {
@@ -116,10 +121,36 @@ public class Order {
         this.start = start;
     }
 
-    public long getDuration() {
-        long duration = ChronoUnit.MINUTES.between(dateCreated, expiry);
-        if (duration != 0) return ChronoUnit.HOURS.between(dateCreated, expiry) + 1;
-        return ChronoUnit.HOURS.between(dateCreated, expiry);
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public double getExtraCharges() {
+        return extraCharges;
+    }
+
+    public void setExtraCharges(double extraCharges) {
+        this.extraCharges = extraCharges;
+    }
+
+    public double getFinalCharge() {
+        return finalCharge;
+    }
+
+    public void setFinalCharge(double finalCharge) {
+        this.finalCharge = finalCharge;
+    }
+
+    public String getDuration() {
+        LocalDateTime temp = start;
+        long hours = ChronoUnit.HOURS.between(temp, expiry);
+        temp = temp.minusHours(hours);
+        long minutes = ChronoUnit.MINUTES.between(temp, expiry);
+        return hours + ":" + minutes;
     }
 
     public URI getUrl() {
