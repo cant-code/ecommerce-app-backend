@@ -1,15 +1,16 @@
 package com.mini.ecommerceapp;
 
-import com.mini.ecommerceapp.models.*;
+import com.mini.ecommerceapp.models.Area;
+import com.mini.ecommerceapp.models.ParkingSpace;
+import com.mini.ecommerceapp.models.VehicularSpace;
 import com.mini.ecommerceapp.services.AreaService;
-import com.mini.ecommerceapp.services.ClientUserService;
-import com.mini.ecommerceapp.utils.JWTUtil;
+import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
+import org.keycloak.authorization.client.AuthzClient;
+import org.keycloak.authorization.client.Configuration;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +23,19 @@ public class EcommerceappApplication {
 	}
 
 	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	public AuthzClient authzClient(KeycloakSpringBootProperties properties) {
+		Configuration configuration = new Configuration(
+				properties.getAuthServerUrl(),
+				properties.getRealm(),
+				properties.getResource(),
+				properties.getCredentials(),
+				null
+		);
+		return AuthzClient.create(configuration);
 	}
 
 	@Bean
-	public static JWTUtil generateJWT() {
-		return new JWTUtil();
-	}
-
-	@Bean
-	CommandLineRunner commandLineRunner(AreaService areaService, ClientUserService clientUserService) {
+	CommandLineRunner commandLineRunner(AreaService areaService) {
 		return args -> {
 			ParkingSpace p1 = new ParkingSpace("Mall", new ArrayList<>());
 			VehicularSpace p1v1 = new VehicularSpace(
@@ -96,18 +99,6 @@ public class EcommerceappApplication {
 			Area a2 = new Area("BTM Layout", List.of(p3, p4));
 			areaService.saveArea(a1);
 			areaService.saveArea(a2);
-			clientUserService.saveUser(new ClientUser(
-					"ABC",
-					"Test",
-					"12345678",
-					Roles.ROLE_ADMIN
-			));
-			clientUserService.saveUser(new ClientUser(
-					"XYZ",
-					"Testing",
-					"12345678",
-					Roles.ROLE_USER
-			));
 		};
 	}
 }

@@ -18,8 +18,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
-    private ClientUser user;
+    private String userId;
     private LocalDateTime dateCreated;
     private Status status;
     @ManyToOne
@@ -27,11 +26,14 @@ public class Order {
     private double totalCost;
     private LocalDateTime start;
     private LocalDateTime expiry;
+    private LocalDateTime endTime;
+    private double extraCharges;
+    private double finalCharge;
 
     public Order() {}
 
-    public Order(ClientUser user, LocalDateTime dateCreated, Status status, VehicularSpace items, double totalCost, LocalDateTime expiry, LocalDateTime start) {
-        this.user = user;
+    public Order(String userId, LocalDateTime dateCreated, Status status, VehicularSpace items, double totalCost, LocalDateTime expiry, LocalDateTime start) {
+        this.userId = userId;
         this.dateCreated = dateCreated;
         this.status = status;
         this.items = items;
@@ -40,14 +42,16 @@ public class Order {
         this.start = start;
     }
 
-    public Order(ClientUser user, OrderDTO request) {
+    public Order(String userId, OrderDTO request) {
         this.dateCreated = LocalDateTime.now();
         this.status = Status.CONFIRMED;
-        this.user = user;
+        this.userId = userId;
         this.items = request.getVehicularSpace();
-        this.totalCost = (ChronoUnit.HOURS.between(request.getStartTimeStamp(), request.getEndTimeStamp())) * request.getVehicularSpace().getPrice();
+        this.totalCost = (ChronoUnit.MINUTES.between(request.getStartTimeStamp(), request.getEndTimeStamp())) * request.getVehicularSpace().getPrice() / 60;
         this.expiry = request.getEndTimeStamp();
         this.start = request.getStartTimeStamp();
+        this.setExtraCharges(0);
+        this.setFinalCharge(this.totalCost);
     }
 
     public long getId() {
@@ -60,12 +64,12 @@ public class Order {
     }
 
     @JsonIgnore
-    public ClientUser getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public Order setUser(ClientUser user) {
-        this.user = user;
+    public Order setUserId(String userId) {
+        this.userId = userId;
         return this;
     }
 
@@ -117,10 +121,36 @@ public class Order {
         this.start = start;
     }
 
-    public long getDuration() {
-        long duration = ChronoUnit.MINUTES.between(dateCreated, expiry);
-        if (duration != 0) return ChronoUnit.HOURS.between(dateCreated, expiry) + 1;
-        return ChronoUnit.HOURS.between(dateCreated, expiry);
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public double getExtraCharges() {
+        return extraCharges;
+    }
+
+    public void setExtraCharges(double extraCharges) {
+        this.extraCharges = extraCharges;
+    }
+
+    public double getFinalCharge() {
+        return finalCharge;
+    }
+
+    public void setFinalCharge(double finalCharge) {
+        this.finalCharge = finalCharge;
+    }
+
+    public String getDuration() {
+        LocalDateTime temp = start;
+        long hours = ChronoUnit.HOURS.between(temp, expiry);
+        temp = temp.minusHours(hours);
+        long minutes = ChronoUnit.MINUTES.between(temp, expiry);
+        return hours + ":" + minutes;
     }
 
     public URI getUrl() {

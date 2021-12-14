@@ -9,9 +9,9 @@ import java.util.Map;
 
 public interface OrderService {
     List<Order> getOrders();
-    List<Order> getOrdersForUser();
+    List<Order> getOrdersForUser(String username);
     Order getOrder(long id);
-    Order addOrder(OrderDTO order);
+    Order addOrder(OrderDTO order, String username);
     Map<Long, Long> getOrderCount(LocalDateTime starTime, LocalDateTime endTime);
-    void updateStatus(long id);
+    Order updateStatus(long id);
 }

@@ -3,11 +3,14 @@ package com.mini.ecommerceapp.controllers;
 import com.mini.ecommerceapp.dto.OrderDTO;
 import com.mini.ecommerceapp.models.Order;
 import com.mini.ecommerceapp.services.OrderService;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 import static com.mini.ecommerceapp.utils.Constants.ORDER;
@@ -23,8 +26,9 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order placeOrder(@Valid @RequestBody OrderDTO order) {
-        return orderService.addOrder(order);
+    public Order placeOrder(@Valid @RequestBody OrderDTO order, Principal principal) {
+        AccessToken token = ((KeycloakAuthenticationToken) principal).getAccount().getKeycloakSecurityContext().getToken();
+        return orderService.addOrder(order, token.getPreferredUsername());
     }
 
     @GetMapping("/{id}")
@@ -33,13 +37,13 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> getOrders() {
-        return orderService.getOrdersForUser();
+    public List<Order> getOrders(Principal principal) {
+        AccessToken token = ((KeycloakAuthenticationToken) principal).getAccount().getKeycloakSecurityContext().getToken();
+        return orderService.getOrdersForUser(token.getPreferredUsername());
     }
 
     @PostMapping("/{id}/finish")
-    public ResponseEntity<?> updateStatus(@Valid @PathVariable long id) {
-        orderService.updateStatus(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Order> updateStatus(@Valid @PathVariable long id) {
+        return ResponseEntity.ok(orderService.updateStatus(id));
     }
 }
