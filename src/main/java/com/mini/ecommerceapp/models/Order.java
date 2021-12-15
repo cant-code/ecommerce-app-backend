@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mini.ecommerceapp.dto.OrderDTO;
 import com.mini.ecommerceapp.utils.Constants;
+import com.mini.ecommerceapp.utils.QRUtil;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.*;
@@ -148,9 +149,13 @@ public class Order {
     public String getDuration() {
         LocalDateTime temp = start;
         long hours = ChronoUnit.HOURS.between(temp, expiry);
-        temp = temp.minusHours(hours);
+        temp = temp.plusHours(hours);
         long minutes = ChronoUnit.MINUTES.between(temp, expiry);
         return hours + ":" + minutes;
+    }
+
+    public String getQRCode() {
+        return QRUtil.generateQR(this);
     }
 
     public URI getUrl() {
