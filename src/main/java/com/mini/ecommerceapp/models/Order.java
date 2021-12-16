@@ -151,7 +151,7 @@ public class Order {
         long hours = ChronoUnit.HOURS.between(temp, expiry);
         temp = temp.plusHours(hours);
         long minutes = ChronoUnit.MINUTES.between(temp, expiry);
-        return hours + ":" + minutes;
+        return hours + ":" + String.format("%02d", minutes);
     }
 
     public String getQRCode() {
