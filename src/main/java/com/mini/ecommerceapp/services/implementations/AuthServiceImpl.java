@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AccessTokenResponse authenticateUser(UserDTO userDTO) {
-        return authzClient.obtainAccessToken(userDTO.getUsername(), userDTO.getPassword());
+        return authzClient.authorization(userDTO.getUsername(), userDTO.getPassword(), "offline_access").authorize();
     }
 
     @Override
