@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 //TODO: Registration
@@ -21,12 +22,13 @@ public class AppController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AccessTokenResponse> loginUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<AccessTokenResponse> loginUser(@RequestBody @Valid UserDTO userDTO) {
         return ResponseEntity.ok(authService.authenticateUser(userDTO));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser() {
+    public ResponseEntity<?> registerUser(@RequestBody @Valid UserDTO userDTO) {
+        authService.registerUser(userDTO);
         return ResponseEntity.created(URI.create(ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString())).build();
     }
 

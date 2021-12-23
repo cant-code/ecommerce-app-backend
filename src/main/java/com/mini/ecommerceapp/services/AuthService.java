@@ -6,4 +6,5 @@ import org.keycloak.representations.AccessTokenResponse;
 public interface AuthService {
     AccessTokenResponse authenticateUser(UserDTO userDTO);
     AccessTokenResponse refreshToken(String token);
+    void registerUser(UserDTO userDTO);
 }
