@@ -6,7 +6,6 @@ import com.mini.ecommerceapp.models.ParkingSpace;
 import com.mini.ecommerceapp.services.AreaService;
 import com.mini.ecommerceapp.services.ParkingSpaceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
