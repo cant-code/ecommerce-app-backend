@@ -38,7 +38,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             list = countOrders(startTime, endTime, Status.CONFIRMED);
         } else {
             list = countOrdersForParkingSpace(startTime, endTime, Status.CONFIRMED, id);
-//            list = new ArrayList<>();
         }
 
         return list
