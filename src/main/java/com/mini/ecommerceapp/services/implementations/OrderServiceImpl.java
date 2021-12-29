@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order addOrder(OrderDTO order, String username) {
         VehicularSpace space = vehicularSpaceService.getVehicularSpace(order.getVehicularSpace().getId());
-        long count = orderRepository.countOrdersByItems_IdAndStartLessThanEqualAndStartLessThan(space.getId(), order.getStartTimeStamp(), order.getEndTimeStamp());
+        long count = orderRepository.countOrdersByItems_IdAndStartLessThanEqualAndStartLessThanAndStatus(space.getId(), order.getStartTimeStamp(), order.getEndTimeStamp(), Status.CONFIRMED);
         if (space.getTotalSlots() == count) {
             throw new ResourceNotAvailableException("Space Booked full");
         }
@@ -57,7 +57,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Map<Long, Long> getOrderCount(LocalDateTime startTime, LocalDateTime endTime) {
-        return orderRepository.countOrdersMap(startTime, endTime);
+        return orderRepository.countOrdersMap(startTime, endTime, -1);
+    }
+
+    @Override
+    public Map<Long, Long> getOrderCountForParkingSpace(LocalDateTime startTime, LocalDateTime endTime, long id) {
+        return orderRepository.countOrdersMap(startTime, endTime, id);
     }
 
     @Override

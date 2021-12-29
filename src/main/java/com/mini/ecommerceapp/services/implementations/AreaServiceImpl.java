@@ -46,14 +46,17 @@ public class AreaServiceImpl implements AreaService {
         Map<Long, Long> orderMap = orderService.getOrderCount(s.getStartTimeStamp(), s.getEndTimeStamp());
         List<Area> areas = areaRepository.findByNameContainingIgnoreCase(s.getSearch());
         areas.forEach(area -> area.getParkingSlots().forEach(
-                parkingSpace -> parkingSpace.getVehicularSpaces().forEach(
-                        vehicularSpace -> {
-                            long total = vehicularSpace.getTotalSlots();
-                            long slots = orderMap.containsKey(vehicularSpace.getId()) ?
-                                    total - orderMap.get(vehicularSpace.getId()) : total;
-                            vehicularSpace.setAvailableSlots(slots);
-                        }
-                )
+                parkingSpace -> {
+                    parkingSpace.getVehicularSpaces().forEach(
+                            vehicularSpace -> {
+                                long total = vehicularSpace.getTotalSlots();
+                                long slots = orderMap.containsKey(vehicularSpace.getId()) ?
+                                        total - orderMap.get(vehicularSpace.getId()) : total;
+                                vehicularSpace.setAvailableSlots(slots);
+                            }
+                    );
+                    parkingSpace.getVehicularSpaces().removeIf(vehicularSpace -> vehicularSpace.getAvailableSlots() == 0);
+                }
         ));
         return areas;
     }

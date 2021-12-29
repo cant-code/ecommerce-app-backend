@@ -15,6 +15,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -99,10 +100,11 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/login", "/register**", "/token/refresh").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/**/add**").hasAuthority("ROLE_ADMIN")
-                .and()
-                .authorizeRequests().anyRequest().authenticated();
+                .authorizeRequests()
+                    .antMatchers("/login", "/register**", "/token/refresh").permitAll()
+                    .antMatchers("/**/orders**").authenticated()
+                    .antMatchers(HttpMethod.GET).permitAll()
+                    .antMatchers("/**/add**").hasAuthority("ROLE_ADMIN")
+                    .anyRequest().authenticated();
     }
 }

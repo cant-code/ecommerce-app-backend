@@ -5,9 +5,11 @@ import com.mini.ecommerceapp.models.VehicularSpace;
 import com.mini.ecommerceapp.services.ParkingSpaceService;
 import com.mini.ecommerceapp.services.VehicularSpaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.mini.ecommerceapp.utils.Constants.PARKING_SPACE;
@@ -30,8 +32,14 @@ public class ParkingSpaceController {
     }
 
     @GetMapping("/byId/{id}")
-    public ParkingSpace getParkingSpace(@PathVariable long id) {
-        return parkingSpaceService.getParkingSpace(id);
+    public ParkingSpace getParkingSpace(@PathVariable long id,
+                                        @RequestParam(required = false)
+                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                LocalDateTime startDate,
+                                        @RequestParam(required = false)
+                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                    LocalDateTime endDate) {
+        return parkingSpaceService.getParkingSpace(startDate, endDate, id);
     }
 
     @GetMapping("/byName/{name}")

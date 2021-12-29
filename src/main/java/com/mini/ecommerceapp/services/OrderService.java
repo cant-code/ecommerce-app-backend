@@ -13,5 +13,6 @@ public interface OrderService {
     Order getOrder(long id);
     Order addOrder(OrderDTO order, String username);
     Map<Long, Long> getOrderCount(LocalDateTime starTime, LocalDateTime endTime);
+    Map<Long, Long> getOrderCountForParkingSpace(LocalDateTime startTime, LocalDateTime endTime, long id);
     Order updateStatus(long id);
 }
