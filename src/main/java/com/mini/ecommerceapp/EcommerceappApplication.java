@@ -4,11 +4,6 @@ import com.mini.ecommerceapp.models.Area;
 import com.mini.ecommerceapp.models.ParkingSpace;
 import com.mini.ecommerceapp.models.VehicularSpace;
 import com.mini.ecommerceapp.services.AreaService;
-import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
-import org.keycloak.authorization.client.AuthzClient;
-import org.keycloak.authorization.client.Configuration;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,36 +12,11 @@ import org.springframework.context.annotation.Bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.keycloak.OAuth2Constants.CLIENT_CREDENTIALS;
-
 @SpringBootApplication
 public class EcommerceappApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EcommerceappApplication.class, args);
-	}
-
-	@Bean
-	public AuthzClient authzClient(KeycloakSpringBootProperties properties) {
-		Configuration configuration = new Configuration(
-				properties.getAuthServerUrl(),
-				properties.getRealm(),
-				properties.getResource(),
-				properties.getCredentials(),
-				null
-		);
-		return AuthzClient.create(configuration);
-	}
-
-	@Bean
-	public Keycloak getKeycloak(KeycloakSpringBootProperties kcProperties) {
-		return KeycloakBuilder.builder()
-				.grantType(CLIENT_CREDENTIALS)
-				.serverUrl(kcProperties.getAuthServerUrl())
-				.realm(kcProperties.getRealm())
-				.clientId(kcProperties.getResource())
-				.clientSecret(kcProperties.getCredentials().get("secret").toString())
-				.build();
 	}
 
 	@Bean
