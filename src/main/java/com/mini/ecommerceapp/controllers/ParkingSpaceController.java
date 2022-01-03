@@ -52,6 +52,16 @@ public class ParkingSpaceController {
         return parkingSpaceService.saveParkingSpace(space);
     }
 
+    @PutMapping("/edit")
+    public ParkingSpace editParkingSpace(@Valid @RequestBody ParkingSpace space) {
+        return parkingSpaceService.updateParkingSpace(space);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteParkingSpace(@Valid @PathVariable long id) {
+        parkingSpaceService.deleteParkingSpace(id);
+    }
+
     @PostMapping("/byName/{name}/vehicularspace/add")
     public VehicularSpace addVehicularSpace(@Valid @PathVariable String name, @Valid @RequestBody VehicularSpace vehicularSpace) {
         ParkingSpace parkingSpace = parkingSpaceService.getParkingSpace(name);

@@ -3,10 +3,7 @@ package com.mini.ecommerceapp.controllers;
 import com.mini.ecommerceapp.models.VehicularSpace;
 import com.mini.ecommerceapp.services.VehicularSpaceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,6 +28,16 @@ public class VehicularSpaceController {
     @GetMapping("/{id}")
     public VehicularSpace getVehicularSpace(@Valid @PathVariable long id) {
         return vehicularSpaceService.getVehicularSpace(id);
+    }
+
+    @PutMapping("/edit")
+    public VehicularSpace updateVehicularSpace(@Valid @RequestBody VehicularSpace vehicularSpace) {
+        return vehicularSpaceService.updateVehicularSpace(vehicularSpace);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteVehicularSpace(@Valid @PathVariable long id) {
+        vehicularSpaceService.deleteVehicularSpace(id);
     }
 
     @GetMapping("/{parkingSpace}/{name}")

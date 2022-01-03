@@ -47,6 +47,16 @@ public class AreaController {
         return areaService.saveArea(area);
     }
 
+    @PutMapping("/edit")
+    public Area updateArea(@Valid @RequestBody Area area) {
+        return areaService.updateArea(area);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteArea(@Valid @PathVariable long id) {
+        areaService.deleteArea(id);
+    }
+
     @GetMapping("/search")
     public List<Area> searchArea(@Valid SearchDTO area) {
         return areaService.search(area);
