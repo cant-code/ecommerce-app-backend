@@ -11,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
-//TODO: Registration
 @RestController
 public class AppController {
     private final AuthService authService;
