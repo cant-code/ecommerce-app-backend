@@ -31,7 +31,7 @@ public class ParkingSpaceController {
         return parkingSpaceService.getAllParkingSpace();
     }
 
-    @GetMapping("/byId/{id}")
+    @GetMapping("/{id}")
     public ParkingSpace getParkingSpace(@PathVariable long id,
                                         @RequestParam(required = false)
                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -57,7 +57,7 @@ public class ParkingSpaceController {
         return parkingSpaceService.updateParkingSpace(space);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public void deleteParkingSpace(@Valid @PathVariable long id) {
         parkingSpaceService.deleteParkingSpace(id);
     }
@@ -69,7 +69,7 @@ public class ParkingSpaceController {
         return vehicularSpaceService.saveVehicularSpace(vehicularSpace);
     }
 
-    @PostMapping("/byId/{id}/vehicularspace/add")
+    @PostMapping("/{id}/vehicularspace/add")
     public VehicularSpace addVehicularSpace(@Valid @PathVariable long id, @Valid @RequestBody VehicularSpace vehicularSpace) {
         ParkingSpace parkingSpace = parkingSpaceService.getParkingSpace(id);
         vehicularSpace.setParkingSpace(parkingSpace);

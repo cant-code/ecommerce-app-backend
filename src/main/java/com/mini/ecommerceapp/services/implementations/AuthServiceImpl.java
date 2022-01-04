@@ -42,13 +42,7 @@ public class AuthServiceImpl implements AuthService {
         final String url = kcProperties.getAuthServerUrl() + "/realms/" + kcProperties.getRealm() + "/protocol/openid-connect/token";
         final String clientId = kcProperties.getResource();
         final String secret = (String) kcProperties.getCredentials().get("secret");
-        Configuration kcConfig = new Configuration(
-                kcProperties.getAuthServerUrl(),
-                kcProperties.getRealm(),
-                kcProperties.getResource(),
-                kcProperties.getCredentials(),
-                null
-        );
+        Configuration kcConfig = authzClient.getConfiguration();
         Http http = new Http(kcConfig, (params, headers) -> {});
 
         return http.<AccessTokenResponse>post(url)

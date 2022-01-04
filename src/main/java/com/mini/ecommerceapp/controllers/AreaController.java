@@ -32,7 +32,7 @@ public class AreaController {
         return areaService.getAreas();
     }
 
-    @GetMapping("/byId/{id}")
+    @GetMapping("/{id}")
     public Area getArea(@Valid @PathVariable long id) {
         return areaService.getArea(id);
     }
@@ -52,7 +52,7 @@ public class AreaController {
         return areaService.updateArea(area);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public void deleteArea(@Valid @PathVariable long id) {
         areaService.deleteArea(id);
     }

@@ -35,7 +35,7 @@ public class VehicularSpaceController {
         return vehicularSpaceService.updateVehicularSpace(vehicularSpace);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public void deleteVehicularSpace(@Valid @PathVariable long id) {
         vehicularSpaceService.deleteVehicularSpace(id);
     }
