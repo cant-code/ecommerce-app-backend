@@ -17,6 +17,7 @@
 		<java.version>11</java.version>
 		<keycloak.version>16.1.0</keycloak.version>
 		<zxing.version>3.4.1</zxing.version>
+		<springdoc.version>1.6.3</springdoc.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -77,6 +78,12 @@
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
 			<version>${zxing.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc.version}</version>
 		</dependency>
 	</dependencies>
 
