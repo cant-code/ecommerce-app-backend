@@ -2,6 +2,7 @@ package com.mini.ecommerceapp.controllers;
 
 import com.mini.ecommerceapp.dto.SearchDTO;
 import com.mini.ecommerceapp.exceptions.ExceptionDetails;
+import com.mini.ecommerceapp.exceptions.ValidationDetailsException;
 import com.mini.ecommerceapp.models.Area;
 import com.mini.ecommerceapp.models.ParkingSpace;
 import com.mini.ecommerceapp.services.AreaService;
@@ -88,7 +89,7 @@ public class AreaController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))}),
+            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(schema = @Schema(implementation = ValidationDetailsException.class))}),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(schema = @Schema(hidden = true))}),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = { @Content(schema = @Schema(hidden = true))}),
             @ApiResponse(responseCode = "409", description = "Conflict", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))})
@@ -105,7 +106,7 @@ public class AreaController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))}),
+            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(schema = @Schema(implementation = ValidationDetailsException.class))}),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(schema = @Schema(hidden = true))}),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = { @Content(schema = @Schema(hidden = true))}),
             @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class)) }),
@@ -138,7 +139,7 @@ public class AreaController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))})
+            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(schema = @Schema(implementation = ValidationDetailsException.class))})
     })
     @GetMapping("/search")
     public List<Area> searchArea(@Valid SearchDTO area) {
