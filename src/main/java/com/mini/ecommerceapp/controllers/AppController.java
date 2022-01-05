@@ -36,9 +36,9 @@ public class AppController {
             summary = "Login"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully placed order"),
+            @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationDetailsException.class))}),
-            @ApiResponse(responseCode = "409", description = "Unauthorized", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))})
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))})
     })
     @PostMapping("/login")
     public ResponseEntity<AccessTokenResponse> loginUser(
@@ -71,7 +71,6 @@ public class AppController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))}),
             @ApiResponse(responseCode = "401", description = "Validation Error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationDetailsException.class))}),
-            @ApiResponse(responseCode = "409", description = "Resource Not Available", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))})
     })
     @GetMapping("/token/refresh")
     public AccessTokenResponse refreshToken(@RequestParam String token) {
