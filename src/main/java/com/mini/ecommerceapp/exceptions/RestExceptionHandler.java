@@ -1,6 +1,8 @@
 package com.mini.ecommerceapp.exceptions;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.exception.ConstraintViolationException;
+import org.keycloak.authorization.client.util.HttpResponseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +60,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(
                 buildExceptionDetails(HttpStatus.CONFLICT, ex),
                 HttpStatus.CONFLICT
+        );
+    }
+
+    @ExceptionHandler(HttpResponseException.class)
+    public ResponseEntity<ExceptionDetails> handleHttpResponseException(HttpResponseException ex) throws IOException {
+        return new ResponseEntity<>(
+                new ExceptionDetails()
+                        .setTimeStamp(LocalDateTime.now())
+                        .setStatus(ex.getStatusCode())
+                        .setTitle(ex.getMessage())
+                        .setDetail(new ObjectMapper().readValue(ex.getBytes(), Map.class).get("error_description").toString())
+                        .setDeveloperMessage(ex.getClass().getName())
+                ,
+                HttpStatus.valueOf(ex.getStatusCode())
         );
     }
 
