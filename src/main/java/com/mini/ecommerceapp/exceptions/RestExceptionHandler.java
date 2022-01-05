@@ -6,6 +6,7 @@ import org.keycloak.authorization.client.util.HttpResponseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -43,6 +44,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(
                 buildExceptionDetails(HttpStatus.NOT_FOUND, ex),
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ExceptionDetails> handleAccessDeniedException(AccessDeniedException ex) {
+        return new ResponseEntity<>(
+                buildExceptionDetails(HttpStatus.FORBIDDEN, ex),
+                HttpStatus.FORBIDDEN
         );
     }
 
