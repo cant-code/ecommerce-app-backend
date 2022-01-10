@@ -12,5 +12,7 @@ public interface ParkingSpaceService {
     ParkingSpace getParkingSpace(long id);
     ParkingSpace getParkingSpace(LocalDateTime startTime, LocalDateTime endTime, long id);
     ParkingSpace saveParkingSpace(ParkingSpace parkingSpace);
+    ParkingSpace updateParkingSpace(ParkingSpace parkingSpace);
+    void deleteParkingSpace(long id);
     void addVehicularSpaceToParkingSpace(String name, VehicularSpace space);
 }

@@ -1,6 +1,5 @@
 package com.mini.ecommerceapp.security;
 
-import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
@@ -28,7 +27,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
@@ -39,11 +38,6 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(
                 new SimpleAuthorityMapper());
         auth.authenticationProvider(keycloakAuthenticationProvider);
-    }
-
-    @Bean
-    public KeycloakSpringBootConfigResolver KeycloakConfigResolver() {
-        return new KeycloakSpringBootConfigResolver();
     }
 
     @Bean
@@ -104,7 +98,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                     .antMatchers("/login", "/register**", "/token/refresh").permitAll()
                     .antMatchers("/**/orders**").authenticated()
                     .antMatchers(HttpMethod.GET).permitAll()
-                    .antMatchers("/**/add**").hasAuthority("ROLE_ADMIN")
+                    .antMatchers("/**/add**", "/**/edit**", "/**/delete**").hasAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated();
     }
 }

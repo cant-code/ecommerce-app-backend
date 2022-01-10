@@ -39,4 +39,22 @@ public class VehicularSpaceServiceImpl implements VehicularSpaceService {
     public VehicularSpace saveVehicularSpace(VehicularSpace vehicularSpace) {
         return vehicularSpaceRepository.save(vehicularSpace);
     }
+
+    @Override
+    public VehicularSpace updateVehicularSpace(VehicularSpace vehicularSpace) {
+        checkID(vehicularSpace.getId());
+        return vehicularSpaceRepository.save(vehicularSpace);
+    }
+
+    @Override
+    public void deleteVehicularSpace(long id) {
+        checkID(id);
+        vehicularSpaceRepository.deleteById(id);
+    }
+
+    private void checkID(long id) {
+        if (!vehicularSpaceRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Vehicle Space Not Found");
+        }
+    }
 }

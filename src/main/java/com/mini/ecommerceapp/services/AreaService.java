@@ -10,6 +10,8 @@ public interface AreaService {
     Area saveArea(Area area);
     Area getArea(String name);
     Area getArea(long id);
+    Area updateArea(Area area);
+    void deleteArea(long id);
     List<Area> search(SearchDTO s);
     List<Area> getAreas();
     void addParkingSpace(String name, ParkingSpace parkingSpace);

@@ -63,7 +63,25 @@ public class ParkingSpaceServiceImpl implements ParkingSpaceService {
     }
 
     @Override
+    public ParkingSpace updateParkingSpace(ParkingSpace parkingSpace) {
+        checkID(parkingSpace.getId());
+        return parkingSpaceRepository.save(parkingSpace);
+    }
+
+    @Override
+    public void deleteParkingSpace(long id) {
+        checkID(id);
+        parkingSpaceRepository.deleteById(id);
+    }
+
+    @Override
     public void addVehicularSpaceToParkingSpace(String name, VehicularSpace space) {
         getParkingSpace(name).getVehicularSpaces().add(space);
+    }
+
+    private void checkID(long id) {
+        if (!parkingSpaceRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Parking Space Not Found");
+        }
     }
 }

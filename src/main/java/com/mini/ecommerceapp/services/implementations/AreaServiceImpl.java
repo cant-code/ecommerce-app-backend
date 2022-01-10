@@ -42,6 +42,18 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
+    public Area updateArea(Area area) {
+        checkArea(area.getId());
+        return areaRepository.save(area);
+    }
+
+    @Override
+    public void deleteArea(long id) {
+        checkArea(id);
+        areaRepository.deleteById(id);
+    }
+
+    @Override
     public List<Area> search(SearchDTO s) {
         Map<Long, Long> orderMap = orderService.getOrderCount(s.getStartTimeStamp(), s.getEndTimeStamp());
         List<Area> areas = areaRepository.findByNameContainingIgnoreCase(s.getSearch());
@@ -69,5 +81,11 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public void addParkingSpace(String name, ParkingSpace parkingSpace) {
         getArea(name).getParkingSlots().add(parkingSpace);
+    }
+
+    private void checkArea(long id) {
+        if (!areaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Area not found");
+        }
     }
 }

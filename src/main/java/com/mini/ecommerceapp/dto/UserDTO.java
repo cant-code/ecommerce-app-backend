@@ -1,15 +1,15 @@
 package com.mini.ecommerceapp.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import io.swagger.v3.oas.annotations.Parameter;
 
-public class UserDTO {
-    @NotBlank
-    private String username;
-    @NotBlank
-    private String password;
+import javax.validation.constraints.Email;
+
+public class UserDTO extends BaseUserDTO {
+    @Parameter
     private String firstName;
+    @Parameter
     private String lastName;
+    @Parameter
     @Email
     private String email;
 
@@ -38,21 +38,5 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

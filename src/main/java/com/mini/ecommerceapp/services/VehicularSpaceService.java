@@ -9,4 +9,6 @@ public interface VehicularSpaceService {
     VehicularSpace getVehicularSpace(String s, String name);
     VehicularSpace getVehicularSpace(long id);
     VehicularSpace saveVehicularSpace(VehicularSpace vehicularSpace);
+    VehicularSpace updateVehicularSpace(VehicularSpace vehicularSpace);
+    void deleteVehicularSpace(long id);
 }
