@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
         name = "Bearer Auth",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
-        scheme = "bearer"
+        scheme = "bearer",
+        description = "Provide the Bearer Token to authenticate for locked endpoints"
 )
 public class OpenAPIConfig {
 }
