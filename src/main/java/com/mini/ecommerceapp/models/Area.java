@@ -18,7 +18,7 @@ public class Area {
     @NotEmpty
     @Column(unique = true)
     private String name;
-    @OneToMany(targetEntity = ParkingSpace.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = ParkingSpace.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ParkingSpace> parkingSlots;
 
     public Area() {}

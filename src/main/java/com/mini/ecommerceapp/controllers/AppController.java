@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.security.Principal;
 
 @RestController
 @Tag(name = "Auth")
@@ -29,6 +32,11 @@ public class AppController {
     @Autowired
     public AppController(AuthService authService) {
         this.authService = authService;
+    }
+
+    @GetMapping("/user")
+    public AccessToken getUser(Principal principal) {
+        return ((KeycloakAuthenticationToken) principal).getAccount().getKeycloakSecurityContext().getToken();
     }
 
     @Operation(
