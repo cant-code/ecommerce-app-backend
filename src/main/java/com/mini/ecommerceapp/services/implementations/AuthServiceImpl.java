@@ -1,5 +1,6 @@
 package com.mini.ecommerceapp.services.implementations;
 
+import com.mini.ecommerceapp.dto.ProfileDTO;
 import com.mini.ecommerceapp.dto.UserDTO;
 import com.mini.ecommerceapp.exceptions.ResourceNotAvailableException;
 import com.mini.ecommerceapp.services.AuthService;
@@ -8,6 +9,7 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.Configuration;
 import org.keycloak.authorization.client.util.Http;
+import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -75,5 +77,16 @@ public class AuthServiceImpl implements AuthService {
             Map<String, String> map = response.readEntity(Map.class);
             throw new ResourceNotAvailableException("Could not create user: " + map.getOrDefault("errorMessage", ""));
         }
+    }
+
+    @Override
+    public ProfileDTO getUser(AccessToken accessToken) {
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setEmail(accessToken.getEmail());
+        profileDTO.setUsername(accessToken.getPreferredUsername());
+        profileDTO.setFirstName(accessToken.getGivenName());
+        profileDTO.setLastName(accessToken.getFamilyName());
+        profileDTO.setRoles(accessToken.getRealmAccess().getRoles());
+        return profileDTO;
     }
 }

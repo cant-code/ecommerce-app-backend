@@ -1,6 +1,7 @@
 package com.mini.ecommerceapp.controllers;
 
 import com.mini.ecommerceapp.dto.BaseUserDTO;
+import com.mini.ecommerceapp.dto.ProfileDTO;
 import com.mini.ecommerceapp.dto.UserDTO;
 import com.mini.ecommerceapp.exceptions.ExceptionDetails;
 import com.mini.ecommerceapp.exceptions.ValidationDetailsException;
@@ -35,8 +36,8 @@ public class AppController {
     }
 
     @GetMapping("/user")
-    public AccessToken getUser(Principal principal) {
-        return ((KeycloakAuthenticationToken) principal).getAccount().getKeycloakSecurityContext().getToken();
+    public ProfileDTO getUser(Principal principal) {
+        return authService.getUser(((KeycloakAuthenticationToken) principal).getAccount().getKeycloakSecurityContext().getToken());
     }
 
     @Operation(
@@ -66,7 +67,7 @@ public class AppController {
             @ApiResponse(responseCode = "409", description = "Resource Not Available", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))})
     })
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody @Valid UserDTO userDTO) {
+    public ResponseEntity<Void> registerUser(@RequestBody @Valid UserDTO userDTO) {
         authService.registerUser(userDTO);
         return ResponseEntity.created(URI.create(ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString())).build();
     }

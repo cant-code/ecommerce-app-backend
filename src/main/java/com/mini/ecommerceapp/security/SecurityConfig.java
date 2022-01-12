@@ -96,7 +96,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/login", "/register**", "/token/refresh").permitAll()
-                    .antMatchers("/**/orders**").authenticated()
+                    .antMatchers("/**/orders**", "/**/user**").authenticated()
                     .antMatchers(HttpMethod.GET).permitAll()
                     .antMatchers("/**/add**", "/**/edit**", "/**/delete**").hasAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated();
