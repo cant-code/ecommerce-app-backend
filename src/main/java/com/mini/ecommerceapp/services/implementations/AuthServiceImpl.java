@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -86,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
         profileDTO.setUsername(accessToken.getPreferredUsername());
         profileDTO.setFirstName(accessToken.getGivenName());
         profileDTO.setLastName(accessToken.getFamilyName());
-        profileDTO.setRoles(accessToken.getRealmAccess().getRoles());
+        profileDTO.setRoles(accessToken.getRealmAccess().getRoles().stream().filter(s -> s.startsWith("ROLE_")).collect(Collectors.toSet()));
         return profileDTO;
     }
 }
