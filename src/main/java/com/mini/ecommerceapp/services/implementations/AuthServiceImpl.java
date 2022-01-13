@@ -82,12 +82,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ProfileDTO getUser(AccessToken accessToken) {
-        ProfileDTO profileDTO = new ProfileDTO();
-        profileDTO.setEmail(accessToken.getEmail());
-        profileDTO.setUsername(accessToken.getPreferredUsername());
-        profileDTO.setFirstName(accessToken.getGivenName());
-        profileDTO.setLastName(accessToken.getFamilyName());
-        profileDTO.setRoles(accessToken.getRealmAccess().getRoles().stream().filter(s -> s.startsWith("ROLE_")).collect(Collectors.toSet()));
-        return profileDTO;
+        return new ProfileDTO(
+                accessToken.getPreferredUsername(),
+                accessToken.getGivenName(),
+                accessToken.getFamilyName(),
+                accessToken.getEmail(),
+                accessToken.getRealmAccess().getRoles().stream().filter(s -> s.startsWith("ROLE_")).collect(Collectors.toSet())
+        );
     }
 }

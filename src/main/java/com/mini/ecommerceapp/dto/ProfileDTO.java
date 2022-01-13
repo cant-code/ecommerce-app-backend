@@ -12,6 +12,14 @@ public class ProfileDTO {
     public ProfileDTO() {
     }
 
+    public ProfileDTO(String username, String firstName, String lastName, String email, Set<String> roles) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.roles = roles;
+    }
+
     public String getUsername() {
         return username;
     }
