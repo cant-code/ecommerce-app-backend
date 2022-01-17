@@ -1,5 +1,6 @@
 package com.mini.ecommerceapp.services.implementations;
 
+import com.mini.ecommerceapp.dto.ProfileDTO;
 import com.mini.ecommerceapp.dto.UserDTO;
 import com.mini.ecommerceapp.exceptions.ResourceNotAvailableException;
 import com.mini.ecommerceapp.services.AuthService;
@@ -8,6 +9,7 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.Configuration;
 import org.keycloak.authorization.client.util.Http;
+import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -75,5 +78,16 @@ public class AuthServiceImpl implements AuthService {
             Map<String, String> map = response.readEntity(Map.class);
             throw new ResourceNotAvailableException("Could not create user: " + map.getOrDefault("errorMessage", ""));
         }
+    }
+
+    @Override
+    public ProfileDTO getUser(AccessToken accessToken) {
+        return new ProfileDTO(
+                accessToken.getPreferredUsername(),
+                accessToken.getGivenName(),
+                accessToken.getFamilyName(),
+                accessToken.getEmail(),
+                accessToken.getRealmAccess().getRoles().stream().filter(s -> s.startsWith("ROLE_")).collect(Collectors.toSet())
+        );
     }
 }

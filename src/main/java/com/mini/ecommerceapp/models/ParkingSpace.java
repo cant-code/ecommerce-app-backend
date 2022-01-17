@@ -15,7 +15,7 @@ public class ParkingSpace {
     private long id;
     private String name;
     @JsonManagedReference
-    @OneToMany(mappedBy = "parkingSpace", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parkingSpace", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<VehicularSpace> vehicularSpaces;
 
     public ParkingSpace() {}
