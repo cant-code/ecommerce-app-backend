@@ -44,4 +44,3 @@ jobs:
       - run: |
           docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/ecommerce-app-backend:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/ecommerce-app-backend:${{ github.sha }}
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/ecommerce-app-backend:latest }}
