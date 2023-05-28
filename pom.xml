@@ -18,6 +18,9 @@
 		<keycloak.version>16.1.0</keycloak.version>
 		<zxing.version>3.4.1</zxing.version>
 		<springdoc.version>1.6.3</springdoc.version>
+
+		<sonar.organization>cant-code</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>
