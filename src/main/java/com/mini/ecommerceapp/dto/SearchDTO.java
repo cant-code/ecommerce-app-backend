@@ -1,8 +1,8 @@
 package com.mini.ecommerceapp.dto;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class SearchDTO extends BaseTime {

@@ -2,7 +2,7 @@ package com.mini.ecommerceapp.dto;
 
 import io.swagger.v3.oas.annotations.Parameter;
 
-import javax.validation.constraints.Email;
+import jakarta.validation.constraints.Email;
 
 public class UserDTO extends BaseUserDTO {
     @Parameter

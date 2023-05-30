@@ -2,8 +2,8 @@ package com.mini.ecommerceapp.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import java.time.LocalDateTime;
 
 public class BaseTime {

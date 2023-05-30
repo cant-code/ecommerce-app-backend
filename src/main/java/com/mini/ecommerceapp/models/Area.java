@@ -3,9 +3,9 @@ package com.mini.ecommerceapp.models;
 import com.mini.ecommerceapp.utils.Constants;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 

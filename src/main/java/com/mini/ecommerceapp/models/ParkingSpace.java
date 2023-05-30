@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mini.ecommerceapp.utils.Constants;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.net.URI;
 import java.util.List;
 

@@ -7,7 +7,7 @@ import com.mini.ecommerceapp.utils.Constants;
 import com.mini.ecommerceapp.utils.QRUtil;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

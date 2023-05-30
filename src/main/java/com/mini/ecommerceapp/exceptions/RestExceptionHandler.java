@@ -5,6 +5,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.keycloak.authorization.client.util.HttpResponseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -25,17 +26,12 @@ import java.util.Map;
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return new ResponseEntity<>(buildExceptionDetails(status, ex), headers, status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return buildValidationDetails(ex);
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return buildValidationDetails(ex);
     }
 
@@ -110,7 +106,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
-    public ExceptionDetails buildExceptionDetails(@NotNull HttpStatus httpStatus, @NotNull Exception ex) {
+    public ExceptionDetails buildExceptionDetails(@NotNull HttpStatusCode httpStatus, @NotNull Exception ex) {
         return new ExceptionDetails()
                         .setTimeStamp(LocalDateTime.now())
                         .setStatus(httpStatus.value())
