@@ -12,17 +12,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.keycloak.representations.AccessToken;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 import static com.mini.ecommerceapp.utils.Constants.ORDER;
+import static com.mini.ecommerceapp.utils.Constants.PREFERRED_USERNAME;
 
 @RestController
 @RequestMapping(ORDER)
@@ -46,9 +45,8 @@ public class OrderController {
             @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationDetailsException.class))})
     })
     @PostMapping
-    public Order placeOrder(@Valid @RequestBody OrderDTO order, Principal principal) {
-        AccessToken token = ((KeycloakAuthenticationToken) principal).getAccount().getKeycloakSecurityContext().getToken();
-        return orderService.addOrder(order, token.getPreferredUsername());
+    public Order placeOrder(@Valid @RequestBody OrderDTO order, JwtAuthenticationToken token) {
+        return orderService.addOrder(order, token.getToken().getClaimAsString(PREFERRED_USERNAME));
     }
 
     @Operation(
@@ -73,9 +71,8 @@ public class OrderController {
             @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping
-    public List<Order> getOrders(Principal principal) {
-        AccessToken token = ((KeycloakAuthenticationToken) principal).getAccount().getKeycloakSecurityContext().getToken();
-        return orderService.getOrdersForUser(token.getPreferredUsername());
+    public List<Order> getOrders(JwtAuthenticationToken token) {
+        return orderService.getOrdersForUser(token.getToken().getClaimAsString(PREFERRED_USERNAME));
     }
 
     @Operation(
