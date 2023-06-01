@@ -1,0 +1,8 @@
+logging:
+  level:
+    org:
+      hibernate:
+        sql: TRACE
+        type:
+          sql:
+            BasicBinder: TRACE
