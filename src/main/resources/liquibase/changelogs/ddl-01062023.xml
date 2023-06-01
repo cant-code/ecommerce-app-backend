@@ -1,0 +1,216 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="cant-code" id="orders_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="orders" />
+            </not>
+        </preConditions>
+        
+        <createTable tableName="orders">
+            <column name="extra_charges" type="FLOAT8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="final_charge" type="FLOAT8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="SMALLINT"/>
+            <column name="total_cost" type="FLOAT8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="expiry" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="orders_pkey"/>
+            </column>
+            <column name="items_id" type="BIGINT"/>
+            <column name="start" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="user_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="cant-code" id="area_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="area" />
+            </not>
+        </preConditions>
+
+        <createTable tableName="area">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="area_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="cant-code" id="area_parking_slots_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="area_parking_slots" />
+            </not>
+        </preConditions>
+
+        <createTable tableName="area_parking_slots">
+            <column name="area_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parking_slots_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="cant-code" id="constraint_area_key_key_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <uniqueConstraintExists tableName="area" constraintName="area_name_key" />
+            </not>
+        </preConditions>
+
+        <addUniqueConstraint columnNames="name" constraintName="area_name_key" tableName="area"/>
+    </changeSet>
+
+    <changeSet author="cant-code" id="constraint_area_parking-slots_key_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <uniqueConstraintExists tableName="area_parking_slots" constraintName="area_parking_slots_parking_slots_id_key" />
+            </not>
+        </preConditions>
+
+        <addUniqueConstraint columnNames="parking_slots_id"
+                             constraintName="area_parking_slots_parking_slots_id_key"
+                             tableName="area_parking_slots"/>
+    </changeSet>
+
+    <changeSet author="cant-code" id="area_seq_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="area_seq" />
+            </not>
+        </preConditions>
+
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="area_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="cant-code" id="parking_space_seq_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="parking_space_seq" />
+            </not>
+        </preConditions>
+
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="parking_space_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="cant-code" id="vehicular_space_seq_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="vehicular_space_seq" />
+            </not>
+        </preConditions>
+
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="vehicular_space_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="cant-code" id="parking_space_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="parking_space" />
+            </not>
+        </preConditions>
+
+        <createTable tableName="parking_space">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="parking_space_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="cant-code" id="vehicular_space_create">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="vehicular_space" />
+            </not>
+        </preConditions>
+
+        <createTable tableName="vehicular_space">
+            <column name="price" type="FLOAT8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_slots" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="vehicular_space_pkey"/>
+            </column>
+            <column name="parking_space_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="cant-code" id="constraint_parking_space_fk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk4xywp8im1tvkdcgu6inwcjjbq" />
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="parking_space_id" baseTableName="vehicular_space"
+                                 constraintName="fk4xywp8im1tvkdcgu6inwcjjbq" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="parking_space" validate="true"/>
+    </changeSet>
+
+    <changeSet author="cant-code" id="constraint_area_parking_slots_fk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk58dsdl8d7jrvx4l61s2fvehfc" />
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="area_id" baseTableName="area_parking_slots"
+                                 constraintName="fk58dsdl8d7jrvx4l61s2fvehfc" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="area" validate="true"/>
+    </changeSet>
+
+    <changeSet author="cant-code" id="constraint_orders_fk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk8vd2ckgcp2u8gxcjl9lmdegep" />
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="items_id" baseTableName="orders"
+                                 constraintName="fk8vd2ckgcp2u8gxcjl9lmdegep" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="vehicular_space" validate="true"/>
+    </changeSet>
+
+    <changeSet author="cant-code" id="constraint_parking_slots_fk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fkhcs79i3g846pce45xa9f2n77q" />
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint baseColumnNames="parking_slots_id" baseTableName="area_parking_slots"
+                                 constraintName="fkhcs79i3g846pce45xa9f2n77q" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="parking_space" validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>
