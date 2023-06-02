@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.mini.ecommerceapp.utils.Constants.VEHICLE_SPACE_NOT_FOUND;
+
 @Service
 @Transactional
 public class VehicularSpaceServiceImpl implements VehicularSpaceService {
@@ -27,12 +29,12 @@ public class VehicularSpaceServiceImpl implements VehicularSpaceService {
 
     @Override
     public VehicularSpace getVehicularSpace(String s, String name) {
-        return vehicularSpaceRepository.getByNameAndParkingSpace_Name(name, s).orElseThrow(() -> new ResourceNotFoundException("Vehicle Space Not Found"));
+        return vehicularSpaceRepository.getByNameAndParkingSpace_Name(name, s).orElseThrow(() -> new ResourceNotFoundException(VEHICLE_SPACE_NOT_FOUND));
     }
 
     @Override
     public VehicularSpace getVehicularSpace(long id) {
-        return vehicularSpaceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Vehicle Space Not Found"));
+        return vehicularSpaceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(VEHICLE_SPACE_NOT_FOUND));
     }
 
     @Override
@@ -54,7 +56,7 @@ public class VehicularSpaceServiceImpl implements VehicularSpaceService {
 
     private void checkID(long id) {
         if (!vehicularSpaceRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Vehicle Space Not Found");
+            throw new ResourceNotFoundException(VEHICLE_SPACE_NOT_FOUND);
         }
     }
 }

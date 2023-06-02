@@ -2,6 +2,7 @@ package com.mini.ecommerceapp.services.implementations;
 
 import com.mini.ecommerceapp.dto.OrderDTO;
 import com.mini.ecommerceapp.exceptions.ResourceNotAvailableException;
+import com.mini.ecommerceapp.exceptions.ResourceNotFoundException;
 import com.mini.ecommerceapp.models.Order;
 import com.mini.ecommerceapp.models.Status;
 import com.mini.ecommerceapp.models.VehicularSpace;
@@ -16,6 +17,8 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+
+import static com.mini.ecommerceapp.utils.Constants.ORDER_NOT_FOUND;
 
 @Service
 @Transactional
@@ -41,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrder(long id) {
-        return orderRepository.getById(id);
+        return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ORDER_NOT_FOUND));
     }
 
     @Override
@@ -67,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order updateStatus(long id) {
-        Order order = orderRepository.getById(id);
+        Order order = orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ORDER_NOT_FOUND));
         LocalDateTime dateTime = order.getExpiry();
         LocalDateTime now = LocalDateTime.now();
         long diff = ChronoUnit.MINUTES.between(dateTime, now);

@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import static com.mini.ecommerceapp.utils.Constants.PARKING_SPACE_NOT_FOUND;
+
 @Service
 @Transactional
 public class ParkingSpaceServiceImpl implements ParkingSpaceService {
@@ -33,12 +35,12 @@ public class ParkingSpaceServiceImpl implements ParkingSpaceService {
 
     @Override
     public ParkingSpace getParkingSpace(String name) {
-        return parkingSpaceRepository.getByName(name).orElseThrow(() -> new ResourceNotFoundException("Parking Space Not Found"));
+        return parkingSpaceRepository.getByName(name).orElseThrow(() -> new ResourceNotFoundException(PARKING_SPACE_NOT_FOUND));
     }
 
     @Override
     public ParkingSpace getParkingSpace(long id) {
-        return parkingSpaceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Parking Space Not Found"));
+        return parkingSpaceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(PARKING_SPACE_NOT_FOUND));
     }
 
     @Override
@@ -81,7 +83,7 @@ public class ParkingSpaceServiceImpl implements ParkingSpaceService {
 
     private void checkID(long id) {
         if (!parkingSpaceRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Parking Space Not Found");
+            throw new ResourceNotFoundException(PARKING_SPACE_NOT_FOUND);
         }
     }
 }
