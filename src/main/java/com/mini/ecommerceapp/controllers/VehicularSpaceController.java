@@ -1,7 +1,7 @@
 package com.mini.ecommerceapp.controllers;
 
 import com.mini.ecommerceapp.exceptions.ExceptionDetails;
-import com.mini.ecommerceapp.exceptions.ValidationDetailsException;
+import com.mini.ecommerceapp.exceptions.ValidationDetails;
 import com.mini.ecommerceapp.models.VehicularSpace;
 import com.mini.ecommerceapp.services.VehicularSpaceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -68,7 +68,7 @@ public class VehicularSpaceController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(schema = @Schema(implementation = ValidationDetailsException.class))}),
+            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(schema = @Schema(implementation = ValidationDetails.class))}),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(schema = @Schema(hidden = true))}),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = { @Content(schema = @Schema(hidden = true))}),
             @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class)) })

@@ -67,18 +67,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     public ResponseEntity<Object> buildValidationDetails(Exception ex) {
         Map<String, String> map = new HashMap<>();
-        if (ex instanceof MethodArgumentNotValidException) {
-            MethodArgumentNotValidException e = (MethodArgumentNotValidException) ex;
-            List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-            fieldErrors.forEach(fieldError -> map.put(fieldError.getField(), fieldError.getDefaultMessage()));
-        } else if (ex instanceof BindException) {
-            BindException e = (BindException) ex;
+        if (ex instanceof BindException e) {
             List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
             fieldErrors.forEach(fieldError -> map.put(fieldError.getField(), fieldError.getDefaultMessage()));
         }
 
         return new ResponseEntity<>(
-                new ValidationDetailsException()
+                new ValidationDetails()
                         .setFieldErrors(map)
                         .setTimeStamp(LocalDateTime.now())
                         .setTitle("Field Validation Error")

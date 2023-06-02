@@ -9,16 +9,6 @@ public class ExceptionDetails {
     private String detail;
     private String developerMessage;
 
-    public ExceptionDetails() {}
-
-    private ExceptionDetails(String title, int status, String detail, LocalDateTime timeStamp, String developerMessage) {
-        this.title = title;
-        this.status = status;
-        this.detail = detail;
-        this.timeStamp = timeStamp;
-        this.developerMessage = developerMessage;
-    }
-
     public ExceptionDetails setTitle(String title) {
         this.title = title;
         return this;

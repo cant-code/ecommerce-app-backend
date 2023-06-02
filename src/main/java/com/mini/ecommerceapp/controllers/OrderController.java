@@ -2,7 +2,7 @@ package com.mini.ecommerceapp.controllers;
 
 import com.mini.ecommerceapp.dto.OrderDTO;
 import com.mini.ecommerceapp.exceptions.ExceptionDetails;
-import com.mini.ecommerceapp.exceptions.ValidationDetailsException;
+import com.mini.ecommerceapp.exceptions.ValidationDetails;
 import com.mini.ecommerceapp.models.Order;
 import com.mini.ecommerceapp.services.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +42,7 @@ public class OrderController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully placed order"),
-            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationDetailsException.class))})
+            @ApiResponse(responseCode = "400", description = "Validation Error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ValidationDetails.class))})
     })
     @PostMapping
     public Order placeOrder(@Valid @RequestBody OrderDTO order, JwtAuthenticationToken token) {

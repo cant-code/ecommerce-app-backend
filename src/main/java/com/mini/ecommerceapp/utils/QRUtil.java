@@ -11,16 +11,23 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.mini.ecommerceapp.models.Order;
 import com.mini.ecommerceapp.serializers.OrderSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
-import java.util.Hashtable;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class QRUtil {
 
+    private static final Logger LOG = LoggerFactory.getLogger(QRUtil.class);
+
+    private QRUtil() {}
+
     public static String generateQR(Order order) {
         try {
-            Hashtable<EncodeHintType, Object> hintMap = new Hashtable<>();
+            Map<EncodeHintType, Object> hintMap = new EnumMap<>(EncodeHintType.class);
             hintMap.put(EncodeHintType.MARGIN, 0);
             hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
             ObjectMapper mapper = new ObjectMapper();
@@ -35,7 +42,7 @@ public class QRUtil {
             MatrixToImageWriter.writeToStream(bitMatrix, "png", outputStream);
             return Base64.getEncoder().encodeToString(outputStream.toByteArray());
         } catch (Exception e) {
-            System.err.println("Error in generating QR: " + e);
+            LOG.error("Error in generating QR", e);
         }
         return null;
     }
