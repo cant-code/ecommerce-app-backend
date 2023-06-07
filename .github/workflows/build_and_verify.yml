@@ -12,4 +12,5 @@ jobs:
       SONAR_PROJECT_KEY: cant-code_parking-app-backend
       ARTIFACT_NAME: ecommerce
       ARTIFACT_PATH: target/ecommerce*.jar
+      CREATE_ARTIFACT: false
     secrets: inherit
