@@ -48,7 +48,7 @@ public class AreaController {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(schema = @Schema(hidden = true))}),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class)) })
     })
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     @GetMapping("")
     public List<Area> getAllArea() {
         return areaService.getAreas();

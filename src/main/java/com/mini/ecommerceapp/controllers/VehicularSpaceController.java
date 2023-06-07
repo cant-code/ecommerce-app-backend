@@ -41,7 +41,7 @@ public class VehicularSpaceController {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(schema = @Schema(hidden = true))}),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = { @Content(schema = @Schema(hidden = true))}),
     })
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     @GetMapping("")
     public List<VehicularSpace> getAllVehicularSpace() {
         return vehicularSpaceService.getAllVehicularSpace();
