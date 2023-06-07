@@ -15,7 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
-		<zxing.version>3.4.1</zxing.version>
+		<zxing.version>3.5.1</zxing.version>
 		<springdoc.version>2.1.0</springdoc.version>
 		<snakeyaml.version>2.0</snakeyaml.version>
 
