@@ -1,0 +1,15 @@
+name: Build and Verify change
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  build:
+    uses: cant-code/github-workflows/.github/workflows/java-spring-workflow.yml@main
+    name: Build and verify
+    with:
+      SONAR_PROJECT_KEY: cant-code_parking-app-backend
+      ARTIFACT_NAME: ecommerce
+      ARTIFACT_PATH: target/ecommerce*.jar
+    secrets: inherit
