@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface VehicularSpaceRepository extends JpaRepository<VehicularSpace, Long> {
-    Optional<VehicularSpace> getByName(String name);
-    Optional<VehicularSpace> getByNameAndParkingSpace_Name(String name, String parkingSpace_Name);
+    Optional<VehicularSpace> getByNameAndParkingSpace_Name(String name, String parkingSpaceName);
 }
