@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.mini.ecommerceapp.utils.Constants.PARKING_SPACE_NOT_FOUND;
+import static com.mini.ecommerceapp.utils.Constants.calculateSlots;
 
 @Service
 @Transactional
@@ -48,13 +49,7 @@ public class ParkingSpaceServiceImpl implements ParkingSpaceService {
         ParkingSpace parkingSpace = getParkingSpace(id);
         if (startTime != null || endTime != null) {
             Map<Long, Long> map = orderService.getOrderCountForParkingSpace(startTime, endTime, id);
-            parkingSpace.getVehicularSpaces().forEach(vehicularSpace -> {
-                long total = vehicularSpace.getTotalSlots();
-                long slots = map.containsKey(vehicularSpace.getId()) ?
-                        total - map.get(vehicularSpace.getId()) : total;
-                vehicularSpace.setAvailableSlots(slots);
-            });
-            parkingSpace.getVehicularSpaces().removeIf(vehicularSpace -> vehicularSpace.getAvailableSlots() == 0);
+            calculateSlots(map, parkingSpace);
         }
         return parkingSpace;
     }

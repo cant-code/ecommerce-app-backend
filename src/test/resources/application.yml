@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:alpine:///ecommerce
+  liquibase:
+    change-log: liquibase/db.changelog-master.xml

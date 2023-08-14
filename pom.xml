@@ -18,6 +18,7 @@
 		<zxing.version>3.5.1</zxing.version>
 		<springdoc.version>2.1.0</springdoc.version>
 		<snakeyaml.version>2.0</snakeyaml.version>
+		<testcontainers-bom.version>1.18.3</testcontainers-bom.version>
 
 		<sonar.organization>cant-code</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -86,10 +87,30 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>${springdoc.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.testcontainers</groupId>
+				<artifactId>testcontainers-bom</artifactId>
+				<version>${testcontainers-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>org.yaml</groupId>
 				<artifactId>snakeyaml</artifactId>
