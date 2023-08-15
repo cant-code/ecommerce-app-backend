@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
+import static com.mini.ecommerceapp.utils.Constants.AREA_NOT_FOUND;
 import static com.mini.ecommerceapp.utils.Constants.calculateSlots;
 
 @Service
@@ -35,12 +36,12 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public Area getArea(String name) {
-        return areaRepository.getByName(name).orElseThrow(() -> new ResourceNotFoundException("Area Not Found"));
+        return areaRepository.getByName(name).orElseThrow(() -> new ResourceNotFoundException(AREA_NOT_FOUND));
     }
 
     @Override
     public Area getArea(long id) {
-        return areaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Area Not Found"));
+        return areaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(AREA_NOT_FOUND));
     }
 
     @Override
@@ -77,7 +78,7 @@ public class AreaServiceImpl implements AreaService {
 
     private void checkArea(long id) {
         if (!areaRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Area not found");
+            throw new ResourceNotFoundException(AREA_NOT_FOUND);
         }
     }
 }
