@@ -1,4 +1,9 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8900/realms/ecommerce
   datasource:
     url: jdbc:tc:postgresql:alpine:///ecommerce
   liquibase:
