@@ -117,6 +117,29 @@ class OrderControllerTest {
     }
 
     @Test
+    @DisplayName("Place order")
+    void dontPlaceOrderWhenValidationFails() {
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setVehicularSpace(globalVS);
+        orderDTO.setStartTimeStamp(LocalDateTime.now().minusHours(5));
+        orderDTO.setEndTimeStamp(LocalDateTime.now().minusHours(1));
+
+        ExceptionDetails details = webTestClient
+                .post().uri("/orders")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(orderDTO), OrderDTO.class)
+                .exchange()
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(ExceptionDetails.class)
+                .returnResult()
+                .getResponseBody();
+
+        assertNotNull(details);
+        assertEquals("Field Validation Error", details.getTitle());
+    }
+
+    @Test
     @DisplayName("Dont place order when space full")
     void dontPlaceOrder() {
         globalVS.setTotalSlots(0);
