@@ -1,13 +1,12 @@
 package com.mini.ecommerceapp.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mini.ecommerceapp.dto.OrderDTO;
 import com.mini.ecommerceapp.utils.Constants;
 import com.mini.ecommerceapp.utils.QRUtil;
+import jakarta.persistence.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import jakarta.persistence.*;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -59,19 +58,16 @@ public class Order {
         return id;
     }
 
-    public Order setId(long id) {
+    public void setId(long id) {
         this.id = id;
-        return this;
     }
 
-    @JsonIgnore
     public String getUserId() {
         return userId;
     }
 
-    public Order setUserId(String userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
-        return this;
     }
 
     public LocalDateTime getDateCreated() {
