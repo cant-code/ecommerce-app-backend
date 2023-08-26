@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-configmap
+data:
+  config-init.hcl: |
+    "auto_auth" = {
+      "method" = {
+        "config" = {
+          "role" = "ecommerce"
+        }
+        "type" = "kubernetes"
+      }
+
+      "sink" = {
+        "config" = {
+          "path" = "/home/vault/.token"
+        }
+
+        "type" = "file"
+      }
+    }
+
+    "exit_after_auth" = true
+    "pid_file" = "/home/vault/.pid"
+
+    "template" = {
+      "destination" = "/vault/secrets/ecommerce"
+      "contents" = <<EOT
+      {{`{{- with secret "secret/kv/ecommerce/postgres" -}}`}}
+      export SPRING_DATA_USERNAME={{`{{ .Data.data.username }}`}}
+      export SPRING_DATA_PASSWORD={{`{{ .Data.data.password }}`}}
+      {{`{{- end }}`}}
+      EOT
+    }
+  
