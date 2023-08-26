@@ -45,6 +45,9 @@ spec:
               port: http
           command: ['/bin/sh', '-c']
           args: ['source /vault/secrets/ecommerce && java -jar ecommerceapp.jar']
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres-postgresql.postgres.svc.cluster.local:5432/ecommerce
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
