@@ -28,8 +28,8 @@ data:
       "destination" = "/vault/secrets/ecommerce"
       "contents" = <<EOT
       {{`{{- with secret "kv/data/ecommerce/postgres" -}}`}}
-      export SPRING_DATA_USERNAME={{`{{ .Data.data.username }}`}}
-      export SPRING_DATA_PASSWORD={{`{{ .Data.data.password }}`}}
+      export SPRING_DATASOURCE_USERNAME={{`{{ .Data.data.username }}`}}
+      export SPRING_DATASOURCE_PASSWORD={{`{{ .Data.data.password }}`}}
       {{`{{- end }}`}}
       EOT
     }
